@@ -1,0 +1,231 @@
+{% extends "base.html" %} {% block apps %} {% include "person/navbar.html" %}
+<div class="container-fluid">
+  <div class="card border-primary">
+    <div class="card-header text-center text-bg-primary">
+      <div class="h5">Edit Person</div>
+    </div>
+    <div class="card-body">
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="mb-3" hidden>
+          <label for="id" class="form-label">ID</label>
+          <input
+            type="text"
+            class="form-control"
+            id="id"
+            name="id"
+            required
+            disabled
+          />
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="nama" class="form-label"
+              >Nama <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="nama"
+              name="nama"
+              required
+              value="Old Nama"
+            />
+          </div>
+          <div class="col">
+            <label for="ktp" class="form-label"
+              >No. KTP <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="ktp"
+              name="ktp"
+              required
+              value="Old Nomor KTP"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="alamat" class="form-label">Alamat</label>
+          <textarea class="form-control" id="alamat" name="alamat" rows="5">
+Old Alamat</textarea
+          >
+        </div>
+        <div class="mb-3">
+          <div class="mb-2 row row-cols-auto">
+            <div class="col pt-1">
+              <span class="h5">Pendidikan</span>
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary col"
+              data-bs-toggle="modal"
+              data-bs-target="#modalTambahPendidikan"
+              title="Tambah Pendidikan"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-plus-square-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="table-responsive-xxl">
+            <table class="table">
+              <thead class="table-primary">
+                <tr>
+                  <th scope="col" class="text-center">#</th>
+                  <th scope="col">Nama Sekolah / Universitas</th>
+                  <th scope="col">Jurusan</th>
+                  <th scope="col">Tahun Masuk</th>
+                  <th scope="col">Tahun Lulus</th>
+                  <th scope="col" class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" class="text-center">1</th>
+                  <td style="min-width: 250px">Nama Sekolah / Universitas</td>
+                  <td style="min-width: 250px">Jurusan</td>
+                  <td style="min-width: 150px">Tahun Masuk</td>
+                  <td style="min-width: 150px">Tahun Lulus</td>
+                  <td class="text-center" style="width: 0px">
+                    <a href="#" class="btn btn-primary" title="Delete">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-trash-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                        />
+                      </svg>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="mb-2 row row-cols-auto">
+            <div class="col pt-1">
+              <span class="h5">Pengalaman Kerja</span>
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary col"
+              data-bs-toggle="modal"
+              data-bs-target="#modalTambahPendidikan"
+              title="Tambah Pendidikan"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-plus-square-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="table-responsive-xxl">
+            <table class="table">
+              <thead class="table-primary">
+                <tr>
+                  <th scope="col" class="text-center">#</th>
+                  <th scope="col">Perusahaan</th>
+                  <th scope="col">Jabatan</th>
+                  <th scope="col">Tahun</th>
+                  <th scope="col">Keterangan</th>
+                  <th scope="col" class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" class="text-center">1</th>
+                  <td style="min-width: 250px">Perusahaan</td>
+                  <td style="min-width: 250px">Jabatan</td>
+                  <td style="min-width: 150px">Tahun</td>
+                  <td style="min-width: 150px">Keterangan</td>
+                  <td class="text-center" style="width: 0px">
+                    <a href="#" class="btn btn-primary" title="Delete">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-trash-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+                        />
+                      </svg>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="foto" class="form-label">Foto</label>
+          <input class="form-control" type="file" id="foto" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Pendidikan -->
+<div
+  class="modal fade"
+  id="modalTambahPendidikan"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">
+          Peringatan
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Apakah Kamu yakin akan menghapus data tersebut...?
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-primary">Iya</a>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Tidak
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock apps %}
