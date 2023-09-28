@@ -6,7 +6,11 @@
     </div>
     <div class="card-body">
       <div class="mb-3">
-        <a href="#" class="btn btn-primary" title="Edit">
+        <a
+          href="{% url 'person:edit' person.id %}"
+          class="btn btn-primary"
+          title="Edit"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

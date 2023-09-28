@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
 
 from .models import Pendidikan, PengalamanKerja, Person
 
@@ -72,6 +71,7 @@ def delete_pendidikan(request, person_id, pendidikan_id):
 
 def delete_pekerjaan(request, person_id, pekerjaan_id):
     PengalamanKerja.objects.filter(id=pekerjaan_id).delete()
+    print("\n\nSempet kesini\n\n")
     return redirect(to="person:add_pendidikan_pekerjaan", id=person_id)
 
 
@@ -90,30 +90,55 @@ def detail(request, id):
 
 
 def edit(request, id):
-    # model = KontakModel.objects.get(id=id)
+    person = Person.objects.get(id=id)
+    pendidikan = Pendidikan.objects.filter(person_id=id)
+    pekerjaan = PengalamanKerja.objects.filter(person_id=id)
 
-    # initial = {
-    #     "nama": model.nama,
-    #     "email": model.email,
-    #     "gender": model.gender,
-    #     "phone": model.phone,
-    #     "alamat": model.alamat,
-    # }
+    if request.method == "POST":
+        if "add_pendidikan" in request.POST:
+            pendidikan = Pendidikan.objects.create(
+                nama=request.POST["sekolah"],
+                jurusan=request.POST["jurusan"],
+                tahun_masuk=request.POST["tahun_masuk"],
+                tahun_lulus=request.POST["tahun_lulus"],
+                person_id=person.id,
+            )
+            pendidikan.save()
+            return redirect(to="person:edit", id=person.id)
+        if "add_pekerjaan" in request.POST:
+            pekerjaan = PengalamanKerja.objects.create(
+                perusahaan=request.POST["perusahaan"],
+                jabatan=request.POST["jabatan"],
+                tahun=request.POST["tahun"],
+                keterangan=request.POST["keterangan"],
+                person_id=person.id,
+            )
+            pekerjaan.save()
+            return redirect(to="person:edit", id=person.id)
+        if "finish" in request.POST:
+            person.nama = request.POST["nama"]
+            person.ktp = request.POST["ktp"]
+            person.alamat = request.POST["alamat"]
+            person.save()
+            return redirect(to="person:index")
 
-    # data = KontakForm(
-    #     data=request.POST or None,
-    #     initial=initial,
-    #     instance=model
-    # )
+    context = {
+        "person": person,
+        "pendidikan": pendidikan,
+        "pekerjaan": pekerjaan
+    }
 
-    # if request.method == "POST":
-    #     if data.is_valid():
-    #         data.save()
-    #         return redirect(to="kontak:detail", id=model.id)
+    return render(request=request, template_name="person/edit.html", context=context)
 
-    # context = {"data": data}
 
-    return render(request=request, template_name="person/edit.html", context={})
+def edit_delete_pendidikan(request, person_id, pendidikan_id):
+    Pendidikan.objects.filter(id=pendidikan_id).delete()
+    return redirect(to="person:edit", id=person_id)
+
+
+def edit_delete_pekerjaan(request, person_id, pekerjaan_id):
+    PengalamanKerja.objects.filter(id=pekerjaan_id).delete()
+    return redirect(to="person:edit", id=person_id)
 
 
 def detele(request, id):
