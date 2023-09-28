@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block apps %} {% include "person/navbar.html" %}
 <div class="container-fluid">
   <a
-    href="{% url 'person:add' %}?id={{id_m}}"
+    href="{% url 'person:add' %}"
     class="btn btn-primary mb-3"
     title="Tambah Person"
   >

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 
 from .models import Pendidikan, PengalamanKerja, Person
 
@@ -7,41 +8,71 @@ from .models import Pendidikan, PengalamanKerja, Person
 
 def index(request):
     data = Person.objects.all().order_by("-id")
-    # max_id = Person.objects.latest("id").id + 1
+
     context = {"data": data}
 
     return render(request=request, template_name="person/index.html", context=context)
 
 
 def add(request):
-    temp_person = Person(nama="Draft", ktp="Draft", alamat="Draft")
-    # temp_person.save()
-    # person = Person()
-    # person.id = 2
-    print("\n\n", temp_person.id, "\n\n")
-    # pedidikan = Pendidikan(request.POST or None)
-    # pengalaman_kerja = PengalamanKerja(request.POST or None)
 
     if request.method == "POST":
-        person = Person.objects.get(id=temp_person.id)
-        person.nama = "bukan draft"
-        person.save()
-        # person = Person.objects.create(
-        #     nama=request.POST["nama"],
-        #     ktp=request.POST["ktp"],
-        #     alamat=request.POST["alamat"],
-        # )
-        # person.save()
+        data = Person.objects.create(
+            nama=request.POST["nama"],
+            ktp=request.POST["ktp"],
+            alamat=request.POST["alamat"]
+        )
+        data.save()
+        return redirect(to="person:add_pendidikan_pekerjaan", id=data.id)
 
-        # if data.is_valid():
-        #     data.save()
-        #     return redirect(to="kontak:index")
-        return redirect(to="person:index")
-    # print("\n\n", person.id, "\n\n")
+    return render(request=request, template_name="person/add.html", context={})
 
-    context = {"data": None}
 
-    return render(request=request, template_name="person/add.html", context=context)
+def add_pendidikan_pekerjaan(request, id):
+    person = Person.objects.get(id=id)
+
+    if request.method == "POST":
+        if "add_pendidikan" in request.POST:
+            pendidikan = Pendidikan.objects.create(
+                nama=request.POST["sekolah"],
+                jurusan=request.POST["jurusan"],
+                tahun_masuk=request.POST["tahun_masuk"],
+                tahun_lulus=request.POST["tahun_lulus"],
+                person_id=person.id,
+            )
+            pendidikan.save()
+        if "add_pekerjaan" in request.POST:
+            pekerjaan = PengalamanKerja.objects.create(
+                perusahaan=request.POST["perusahaan"],
+                jabatan=request.POST["jabatan"],
+                tahun=request.POST["tahun"],
+                keterangan=request.POST["keterangan"],
+                person_id=person.id,
+            )
+            pekerjaan.save()
+        if "finish" in request.POST:
+            return redirect(to="person:index")
+
+    pendidikan = Pendidikan.objects.filter(person_id=person.id)
+    pekerjaan = PengalamanKerja.objects.filter(person_id=person.id)
+
+    context = {
+        "person": person,
+        "pendidikan": pendidikan,
+        "pekerjaan": pekerjaan,
+    }
+
+    return render(request=request, template_name="person/add_pendidikan_pekerjaan.html", context=context)
+
+
+def delete_pendidikan(request, person_id, pendidikan_id):
+    Pendidikan.objects.filter(id=pendidikan_id).delete()
+    return redirect(to="person:add_pendidikan_pekerjaan", id=person_id)
+
+
+def delete_pekerjaan(request, person_id, pekerjaan_id):
+    PengalamanKerja.objects.filter(id=pekerjaan_id).delete()
+    return redirect(to="person:add_pendidikan_pekerjaan", id=person_id)
 
 
 def detail(request, id):
