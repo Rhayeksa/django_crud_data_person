@@ -19,7 +19,8 @@ def add(request):
         data = Person.objects.create(
             nama=request.POST["nama"],
             ktp=request.POST["ktp"],
-            alamat=request.POST["alamat"]
+            alamat=request.POST["alamat"],
+            image=request.FILES['foto']
         )
         data.save()
         return redirect(to="person:add_pendidikan_pekerjaan", id=data.id)

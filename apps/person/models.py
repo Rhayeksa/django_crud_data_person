@@ -7,6 +7,7 @@ class Person(models.Model):
     nama = models.CharField(max_length=45)
     ktp = models.CharField(max_length=16)
     alamat = models.TextField(null=True, blank=True)
+    image = models.ImageField(upload_to="images/")
 
     class Meta:
         db_table = "person"
