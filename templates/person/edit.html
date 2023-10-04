@@ -5,7 +5,7 @@
       <div class="h5">Edit Person</div>
     </div>
     <div class="card-body">
-      <form action="" method="post">
+      <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row mb-3">
           <div class="col">
@@ -47,13 +47,9 @@
               <label for="foto" class="form-label"
                 >Foto <span class="text-danger">*</span></label
               >
-              <input class="form-control" type="file" id="foto" />
+              <input class="form-control" type="file" id="foto" name="foto" />
             </div>
-            <img
-              src="https://media.licdn.com/dms/image/C5603AQEZXvVi3_JZRQ/profile-displayphoto-shrink_800_800/0/1617010459534?e=2147483647&v=beta&t=J9w85MfhLQ04VASHX-XyarjFkG4b7ljCrnH8Y6q2GOU"
-              alt=""
-              width="150px"
-            />
+            <img src="{{person.image.url}}" alt="" width="150px" />
           </div>
         </div>
         <div class="mb-3">

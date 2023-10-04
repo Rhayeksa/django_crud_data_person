@@ -120,6 +120,7 @@ def edit(request, id):
             person.nama = request.POST["nama"]
             person.ktp = request.POST["ktp"]
             person.alamat = request.POST["alamat"]
+            person.image = request.FILES['foto']
             person.save()
             return redirect(to="person:index")
 
